@@ -8,6 +8,7 @@ import com.example.demo_back.service.HouseService;
 import com.example.demo_back.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +18,12 @@ public class RoomController {
     @Autowired
     HouseService houseService;
     @PostMapping("/houses/room")
+    @PreAuthorize("hasAuthority('user')")
     public ResponseEntity<?> addRoom(@RequestBody RoomRequest room){
         return service.addRoom(room);
     }
     @GetMapping("/houses/room/{houseId}")
+    @PreAuthorize("hasAuthority('user')")
     public ResponseEntity<?> getRoomByHouse(@PathVariable Integer houseId){
         return service.findByHose(houseId);
     }

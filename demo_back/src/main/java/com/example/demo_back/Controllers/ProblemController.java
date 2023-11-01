@@ -25,7 +25,7 @@ public class ProblemController {
     ProblemRepository repository;
     @GetMapping("/problems/{id}")
     @ResponseBody
-    public ResponseEntity<?> main(@PathVariable Integer id) {
+    public ResponseEntity<?> getProblem(@PathVariable Integer id) {
         return service.searchProblem(id);
     }
 }

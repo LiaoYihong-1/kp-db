@@ -1,5 +1,7 @@
 package com.example.demo_back.service;
 
+import com.example.demo_back.domain.MyUserDetails;
+import com.example.demo_back.domain.SecurityAccount;
 import com.example.demo_back.dto.LoginResponse;
 import com.example.demo_back.dto.UniResponse;
 import com.example.demo_back.dao.account.AccountJpa;
@@ -7,16 +9,25 @@ import com.example.demo_back.dao.account.AccountRepository;
 import com.example.demo_back.dao.enums.Gender;
 import com.example.demo_back.exception.InvalidParameterException;
 import com.example.demo_back.exception.ResourceNotFoundException;
+import com.example.demo_back.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Service
 public class AccountService {
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
@@ -33,22 +44,24 @@ public class AccountService {
             uniResponse.setSuccess(false);
             uniResponse.setMessage("No such phone");
         }else if (Pattern.matches(regexEmail,username)){
-            AccountJpa accountJpa = findAccountByEmail(username);
-            if (accountJpa == null){
-                throw new InvalidParameterException("Password or account not valid");
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,password);
+            Authentication authentication = authenticationManager.authenticate(token);
+            if(Objects.isNull(authentication)){
+                return ResponseEntity.badRequest().body("Fail login");
             }
-            String a = accountJpa.getPassword();
-            if (a==null){
-                throw new InvalidParameterException("No such phone");
-            }else {
-                if (a.equals(password)) {
-                    uniResponse.setSuccess(true);
-                    uniResponse.setMessage("Success");
-                    uniResponse.setId(accountJpa.getId());
-                } else {
-                    throw new InvalidParameterException("Phone or password wrong");
-                }
-            }
+            MyUserDetails details = (MyUserDetails) authentication.getPrincipal();
+            SecurityAccount securityUser = details.getUser();
+            /**
+             * token is made up of id + type
+             */
+            String userId = securityUser.getId().toString() + securityUser.getType();
+            /**
+             * create token
+             */
+            String jwtToken = JwtUtils.createToken(userId);
+            Map<String,String> tokenMap = new HashMap<>();
+            tokenMap.put("token",jwtToken);
+            return ResponseEntity.ok(tokenMap);
         }else{
             throw new InvalidParameterException("Make sure that you input a phone or email");
         }
@@ -61,9 +74,10 @@ public class AccountService {
         return true;
     }
     public ResponseEntity<?> signup(String name,String password,String phone,String email,String gender,Integer age) throws InvalidParameterException{
+        password = new BCryptPasswordEncoder().encode(password);
         UniResponse uniResponse = new UniResponse();
         if(checkString(name)&&checkString(phone)&&checkString(email)&&checkString(gender)&&checkString(password)) {
-            if (findAccountByEmail(email)!=null || findAccountByPhone(phone)!=null){
+            if (accountRepository.findAccountJpaByEmail(email).size()!=0 || accountRepository.findAccountJpaByPhone(phone).size()!=0){
                 throw new InvalidParameterException("Phone or email existed");
             }
             addAccount(password,name,gender,age);
@@ -91,9 +105,6 @@ public class AccountService {
     }
     public Integer findNewestId(){
         return accountRepository.findNewestAccount().get(0);
-    }
-    public List<String> findPasswordByEmail(String email){
-        return accountRepository.findPasswordJpaByEmail(email);
     }
     public AccountJpa findAccountByEmail(String email) throws ResourceNotFoundException{
         if (accountRepository.findAccountJpaByEmail(email).size()==0){

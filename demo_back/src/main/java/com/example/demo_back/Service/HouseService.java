@@ -1,6 +1,7 @@
 package com.example.demo_back.service;
 
 import com.example.demo_back.dao.account.AccountJpa;
+import com.example.demo_back.domain.SecurityAccount;
 import com.example.demo_back.dto.UniResponse;
 import com.example.demo_back.dao.enums.HouseType;
 import com.example.demo_back.dao.house.HouseJpa;
@@ -11,6 +12,7 @@ import com.example.demo_back.exception.InvalidParameterException;
 import com.example.demo_back.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -61,6 +63,10 @@ public class HouseService {
 
     public ResponseEntity<?> findHousesByUser(Integer user){
         AccountJpa accountJpa = accountService.findAccountById(user);
+        SecurityAccount account = (SecurityAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!account.getId().equals(user)){
+            throw new InvalidParameterException("You are trying to access to resource, which you are not allowed to accessed");
+        }
         return ResponseEntity.ok(accountJpa.getHouses());
     }
 

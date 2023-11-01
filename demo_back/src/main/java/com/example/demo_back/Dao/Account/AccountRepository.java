@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Account;
+package com.example.demo_back.dao.account;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

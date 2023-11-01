@@ -1,9 +1,9 @@
-package com.example.demo_back.Service;
+package com.example.demo_back.service;
 
-import com.example.demo_back.Dao.Address.AddressJpa;
-import com.example.demo_back.Dao.Address.AddressRepository;
-import com.example.demo_back.Dao.Enums.City;
-import com.example.demo_back.Dao.Enums.Country;
+import com.example.demo_back.dao.address.AddressJpa;
+import com.example.demo_back.dao.address.AddressRepository;
+import com.example.demo_back.dao.enums.City;
+import com.example.demo_back.dao.enums.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

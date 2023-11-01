@@ -1,13 +1,13 @@
-package com.example.demo_back.Dto;
+package com.example.demo_back.dto;
 
-import com.example.demo_back.Dao.Enums.Action_Type;
-import com.example.demo_back.Dao.Enums.Furniture_Type;
+import com.example.demo_back.dao.enums.ActionType;
+import com.example.demo_back.dao.enums.FurnitureType;
 import lombok.Data;
 
 @Data
 public class ActionResponse {
     private Integer action_id;
-    private Action_Type action_type;
+    private ActionType action_type;
     private Integer target_id;
-    private Furniture_Type target_type;
+    private FurnitureType target_type;
 }

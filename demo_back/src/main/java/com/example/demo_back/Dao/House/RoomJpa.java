@@ -1,8 +1,7 @@
-package com.example.demo_back.Dao.House;
+package com.example.demo_back.dao.house;
 
-import com.example.demo_back.Dao.Enums.House_Type;
-import com.example.demo_back.Dao.Enums.PostgreSQLEnumType;
-import com.example.demo_back.Dao.Enums.Room_Type;
+import com.example.demo_back.dao.enums.PostgreSQLEnumType;
+import com.example.demo_back.dao.enums.RoomType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -28,11 +27,11 @@ public class RoomJpa {
     private Double height;
 
     @Column(nullable = false,name="is_filled")
-    private Boolean is_filled;
+    private Boolean isFilled;
 
-    @Column(nullable = false,name="room_type")
+    @Column(nullable = false,name="type")
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
-    private Room_Type room_type;
+    private RoomType room_type;
 
 }

@@ -1,12 +1,10 @@
-package com.example.demo_back.Dao.Account;
+package com.example.demo_back.dao.account;
 
-import com.example.demo_back.Dao.Contact.ContactJpa;
-import com.example.demo_back.Dao.Enums.Gender;
-import com.example.demo_back.Dao.Enums.PostgreSQLEnumType;
-import com.example.demo_back.Dao.House.HouseJpa;
-import com.example.demo_back.Dao.Problem.Problem;
-import com.example.demo_back.Dao.Script.ScheduleScript;
-import com.example.demo_back.Dao.Script.Script;
+import com.example.demo_back.dao.contact.ContactJpa;
+import com.example.demo_back.dao.enums.Gender;
+import com.example.demo_back.dao.enums.PostgreSQLEnumType;
+import com.example.demo_back.dao.house.HouseJpa;
+import com.example.demo_back.dao.script.Script;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;

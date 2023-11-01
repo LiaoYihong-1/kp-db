@@ -1,6 +1,5 @@
-package com.example.demo_back.Dao.Script;
+package com.example.demo_back.dao.script;
 
-import com.example.demo_back.Dao.List_Script_Action.List_Action_Script;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

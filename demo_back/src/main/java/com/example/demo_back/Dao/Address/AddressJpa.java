@@ -1,10 +1,8 @@
-package com.example.demo_back.Dao.Address;
+package com.example.demo_back.dao.address;
 
-import com.example.demo_back.Dao.Contact.ContactJpa;
-import com.example.demo_back.Dao.Enums.City;
-import com.example.demo_back.Dao.Enums.Country;
-import com.example.demo_back.Dao.Enums.House_Type;
-import com.example.demo_back.Dao.House.HouseJpa;
+import com.example.demo_back.dao.enums.City;
+import com.example.demo_back.dao.enums.Country;
+import com.example.demo_back.dao.house.HouseJpa;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 

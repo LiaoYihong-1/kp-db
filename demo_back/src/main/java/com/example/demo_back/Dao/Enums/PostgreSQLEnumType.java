@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Enums;
+package com.example.demo_back.dao.enums;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

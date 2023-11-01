@@ -1,15 +1,13 @@
-package com.example.demo_back.Dao.Script;
+package com.example.demo_back.dao.script;
 
-import com.example.demo_back.Dao.Action.ActionJpa;
-import com.example.demo_back.Dao.Enums.PostgreSQLEnumType;
-import com.example.demo_back.Dao.Enums.Problem_Type;
-import com.example.demo_back.Dao.Enums.ScriptType;
+import com.example.demo_back.dao.enums.PostgreSQLEnumType;
+import com.example.demo_back.dao.enums.ScriptType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +18,7 @@ public class Script {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,name="script_type")
+    @Column(nullable = false,name="type")
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
     private ScriptType scriptType;
@@ -30,10 +28,12 @@ public class Script {
 
     @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "id",referencedColumnName = "script_id")
+    @JsonIgnore
     private ConditionalScript conditionalScript;
 
     @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "id",referencedColumnName = "script_id")
+    @JsonIgnore
     private ScheduleScript scheduleScript;
 
 }

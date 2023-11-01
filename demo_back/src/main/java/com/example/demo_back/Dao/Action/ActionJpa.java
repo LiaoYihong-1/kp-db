@@ -1,9 +1,8 @@
-package com.example.demo_back.Dao.Action;
+package com.example.demo_back.dao.action;
 
-import com.example.demo_back.Dao.Enums.Action_Type;
-import com.example.demo_back.Dao.Enums.City;
-import com.example.demo_back.Dao.Enums.Furniture_Type;
-import com.example.demo_back.Dao.Enums.PostgreSQLEnumType;
+import com.example.demo_back.dao.enums.ActionType;
+import com.example.demo_back.dao.enums.FurnitureType;
+import com.example.demo_back.dao.enums.PostgreSQLEnumType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -19,14 +18,14 @@ public class ActionJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,name="action_type")
+    @Column(nullable = false,name="type")
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
-    private Action_Type action;
+    private ActionType action;
 
     @Column(nullable = false,name="type_furniture")
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
-    private Furniture_Type furniture;
+    private FurnitureType furniture;
 
 }

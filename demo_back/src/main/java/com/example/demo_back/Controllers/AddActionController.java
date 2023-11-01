@@ -1,24 +1,21 @@
-package com.example.demo_back.Controllers;
+package com.example.demo_back.controllers;
 
-import com.example.demo_back.Dao.Action.ActionJpa;
-import com.example.demo_back.Dao.Action.ActionRepository;
-import com.example.demo_back.Dao.Enums.Action_Type;
-import com.example.demo_back.Dao.Enums.Furniture_Type;
-import com.example.demo_back.Dao.House.FunitureRepository;
-import com.example.demo_back.Dao.House.FurnitureJpa;
-import com.example.demo_back.Dao.List_Script_Action.ListActionScriptRepository;
-import com.example.demo_back.Dao.List_Script_Action.List_Action_Script;
-import com.example.demo_back.Dao.List_Script_User.ListScriptUserRepository;
-import com.example.demo_back.Dao.Script.*;
-import com.example.demo_back.Dto.UniResponse;
+import com.example.demo_back.dao.action.ActionJpa;
+import com.example.demo_back.dao.action.ActionRepository;
+import com.example.demo_back.dao.enums.ActionType;
+import com.example.demo_back.dao.enums.FurnitureType;
+import com.example.demo_back.dao.house.FunitureRepository;
+import com.example.demo_back.dao.house.FurnitureJpa;
+import com.example.demo_back.dao.listscriptaction.ListActionScriptRepository;
+import com.example.demo_back.dao.listscriptaction.ListActionScript;
+import com.example.demo_back.dao.script.*;
+import com.example.demo_back.dto.UniResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class AddActionController {
@@ -39,14 +36,14 @@ public class AddActionController {
         response.setSuccess(true);
         Integer script_id = Integer.valueOf(request.getParameter("script_id"));
         Integer furniture_id = Integer.valueOf(request.getParameter("target"));
-        Action_Type action_type = Action_Type.valueOf(request.getParameter("action_type").toUpperCase());
+        ActionType action_type = ActionType.valueOf(request.getParameter("action_type").toUpperCase());
         FurnitureJpa f = funitureRepository.findFurnitureJpaById(furniture_id).get(0);
-        Furniture_Type furniture_type = f.getFurniture_type();
+        FurnitureType furniture_type = f.getFurnitureType();
         System.out.println(furniture_type);
         System.out.println(action_type);
         try {
             ActionJpa actionJpa = actionRepository.findAllByActionAndFurnitrue(action_type, furniture_type).get(0);
-            List_Action_Script list_action_script = new List_Action_Script();
+            ListActionScript list_action_script = new ListActionScript();
             list_action_script.setAction_id(actionJpa.getId());
             list_action_script.setScript_id(script_id);
             list_action_script.setFurniture_id(furniture_id);

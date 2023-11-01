@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Contact;
+package com.example.demo_back.dao.contact;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

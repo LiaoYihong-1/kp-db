@@ -1,4 +1,4 @@
-package com.example.demo_back.Dto;
+package com.example.demo_back.dto;
 public class UniResponse {
     private boolean success;
     private String message;

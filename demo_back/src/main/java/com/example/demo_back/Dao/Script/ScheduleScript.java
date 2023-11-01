@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Script;
+package com.example.demo_back.dao.script;
 
 import lombok.Data;
 
@@ -13,8 +13,7 @@ import java.sql.Time;
 @Table(name = "schedule_script")
 public class ScheduleScript {
     @Id
-    private Integer script_id;
+    private Integer id;
     @Column(nullable = false,name="time")
     private Time time;
-
 }

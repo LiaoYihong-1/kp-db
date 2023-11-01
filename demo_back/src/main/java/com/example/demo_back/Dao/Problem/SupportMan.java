@@ -1,9 +1,8 @@
-package com.example.demo_back.Dao.Problem;
+package com.example.demo_back.dao.problem;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity

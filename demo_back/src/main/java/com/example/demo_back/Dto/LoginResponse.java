@@ -1,9 +1,6 @@
-package com.example.demo_back.Dto;
+package com.example.demo_back.dto;
 
 import lombok.Data;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Data
 public class LoginResponse {

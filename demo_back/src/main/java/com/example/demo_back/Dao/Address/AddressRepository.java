@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Address;
+package com.example.demo_back.dao.address;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

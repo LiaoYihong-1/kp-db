@@ -1,7 +1,7 @@
-package com.example.demo_back.Service;
+package com.example.demo_back.service;
 
-import com.example.demo_back.Dao.Contact.ContactJpa;
-import com.example.demo_back.Dao.Contact.ContactRepository;
+import com.example.demo_back.dao.contact.ContactJpa;
+import com.example.demo_back.dao.contact.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class ContactService {
     public void addContact(Integer id, String phone, String email){
         ContactJpa contactJpa = new ContactJpa();
         contactJpa.setEmail(email);
-        contactJpa.setUser_id(id);
+        contactJpa.setUserId(id);
         contactJpa.setPhone(phone);
         System.out.println(id);
         contactRepository.save(contactJpa);

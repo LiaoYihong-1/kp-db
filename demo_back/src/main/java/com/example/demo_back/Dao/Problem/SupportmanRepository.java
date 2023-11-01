@@ -1,4 +1,4 @@
-package com.example.demo_back.Dao.Problem;
+package com.example.demo_back.dao.problem;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

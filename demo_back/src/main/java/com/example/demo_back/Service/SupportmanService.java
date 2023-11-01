@@ -1,7 +1,8 @@
-package com.example.demo_back.Service;
+package com.example.demo_back.service;
 
-import com.example.demo_back.Dao.Problem.SupportMan;
-import com.example.demo_back.Dao.Problem.SupportmanRepository;
+import com.example.demo_back.dao.problem.SupportMan;
+import com.example.demo_back.dao.problem.SupportmanRepository;
+import com.example.demo_back.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,12 @@ public class SupportmanService {
     @Autowired
     SupportmanRepository supportmanRepository;
 
-    public SupportMan findFreeSupport(){
+    public SupportMan findFreeSupport() throws ResourceNotFoundException {
         List<SupportMan> l = supportmanRepository.findbyfree();
         if (l.size()!=0) {
             return supportmanRepository.findbyfree().get(0);
         }else{
-            return null;
+            throw new ResourceNotFoundException("No free support man now");
         }
     }
 

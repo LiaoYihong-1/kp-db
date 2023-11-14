@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProblemRepository extends JpaRepository<Problem,Integer> {
     @Query(value="select P from Problem P where P.userId=?1")
     List<Problem> findAllByUserId(Integer id);
+    List<Problem> findProblemBySupportManId(Integer id);
 }

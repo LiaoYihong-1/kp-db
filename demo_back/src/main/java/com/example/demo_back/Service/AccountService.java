@@ -32,7 +32,7 @@ public class AccountService {
     AccountRepository accountRepository;
     @Autowired
     ContactService contactService;
-    public ResponseEntity<?> login(String username, String password) throws InvalidParameterException{
+    public ResponseEntity<?> login(String username, String password) throws InvalidParameterException, ResourceNotFoundException{
         LoginResponse uniResponse = new LoginResponse();
         if (username == null || password == null || "".equals(password) || "".equals(username)) {
             uniResponse.setSuccess(false);
@@ -47,7 +47,7 @@ public class AccountService {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,password);
             Authentication authentication = authenticationManager.authenticate(token);
             if(Objects.isNull(authentication)){
-                return ResponseEntity.badRequest().body("Fail login");
+                throw new ResourceNotFoundException("Failed login");
             }
             MyUserDetails details = (MyUserDetails) authentication.getPrincipal();
             SecurityAccount securityUser = details.getUser();

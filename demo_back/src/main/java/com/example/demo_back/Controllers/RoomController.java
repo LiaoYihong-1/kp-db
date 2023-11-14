@@ -27,4 +27,10 @@ public class RoomController {
     public ResponseEntity<?> getRoomByHouse(@PathVariable Integer houseId){
         return service.findByHose(houseId);
     }
+    @DeleteMapping("/houses/room/{id}")
+    @PreAuthorize("hasAuthority('user')")
+    public ResponseEntity<?> deleteRoom(@PathVariable Integer id){
+        return service.removeRoom(id);
+    }
+
 }

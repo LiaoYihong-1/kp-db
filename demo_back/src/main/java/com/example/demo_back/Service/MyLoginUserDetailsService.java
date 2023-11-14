@@ -39,7 +39,7 @@ public class MyLoginUserDetailsService implements UserDetailsService {
         List<String> permissions;
         try {
             if(accountRepository.findAccountJpaByEmail(username).size() == 0){
-                return null;
+                throw new NoSuchElementException("No such user");
             }
             AccountJpa customer = accountRepository.findAccountJpaByEmail(username).get(0);
             permissions = Arrays.asList("user");

@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ProblemService {
     @Autowired
@@ -35,5 +38,15 @@ public class ProblemService {
             throw new InvalidParameterException("You are trying to access to resource, which you are not allowed to accessed");
         }
         return ResponseEntity.ok(problemRepository.findAllByUserId(id));
+    }
+    public Problem findById(Integer id) throws ResourceNotFoundException{
+        Optional<Problem> problems = problemRepository.findById(id);
+        if(problems.isEmpty()){
+            throw new ResourceNotFoundException("No this problem");
+        }
+        return problems.get();
+    }
+    public void updateProblem(Problem p){
+        problemRepository.save(p);
     }
 }

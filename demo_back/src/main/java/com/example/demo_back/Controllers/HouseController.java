@@ -30,4 +30,10 @@ public class HouseController {
     public ResponseEntity<?> getHousesByUser(@PathVariable Integer userId){
         return houseService.findHousesByUser(userId);
     }
+    @DeleteMapping("/houses/{id}")
+    @PreAuthorize("hasAuthority('user')")
+    public ResponseEntity<?> deleteHouse(@PathVariable Integer id){
+        return houseService.deleteHouse(id);
+    }
+
 }

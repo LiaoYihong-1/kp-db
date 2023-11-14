@@ -12,4 +12,5 @@ public interface FunitureRepository extends JpaRepository<FurnitureJpa,Integer> 
     @Query(value="select F from  FurnitureJpa F where F.id = ?1")
     List<FurnitureJpa> findFurnitureJpaById(Integer id);
 
+
 }

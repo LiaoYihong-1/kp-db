@@ -1,11 +1,10 @@
 package com.example.demo_back.service;
 
 import com.example.demo_back.dao.account.AccountJpa;
+import com.example.demo_back.dao.house.*;
 import com.example.demo_back.domain.SecurityAccount;
 import com.example.demo_back.dto.UniResponse;
 import com.example.demo_back.dao.enums.HouseType;
-import com.example.demo_back.dao.house.HouseJpa;
-import com.example.demo_back.dao.house.HouseRepository;
 import com.example.demo_back.dao.listuserhouse.ListUserHouseJpa;
 import com.example.demo_back.dao.listuserhouse.ListUserHouseRepository;
 import com.example.demo_back.exception.InvalidParameterException;
@@ -15,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -27,6 +27,10 @@ public class HouseService {
     AddressService addressService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    RoomRepository roomRepository;
+    @Autowired
+    FunitureRepository funitureRepository;
     public boolean checkString(String s){
         if ((s == null) | (Objects.equals(s, ""))){
             return false;
@@ -75,6 +79,34 @@ public class HouseService {
             throw new ResourceNotFoundException("No this house");
         }
         return houseRepository.findById(houseId).get();
+    }
+
+    public ResponseEntity<?> deleteHouse(Integer id) throws ResourceNotFoundException{
+        SecurityAccount account = (SecurityAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(houseRepository.findById(id).isEmpty()){
+            throw new ResourceNotFoundException("No such house");
+        }
+        HouseJpa houseJpa = houseRepository.findById(id).get();
+        Boolean mark = false;
+        for(AccountJpa accountJpa : houseJpa.getUsers()){
+            if(accountJpa.getId().equals(account.getId())){
+                mark = true;
+                break;
+            }
+        }
+        if(!mark){
+            throw new InvalidParameterException("You are trying to delete a room, witch doesn't belong to you");
+        }
+        List<RoomJpa> roomJpaList = roomRepository.findRoomJpaByHouse_id(houseJpa.getId());
+        for(RoomJpa r: roomJpaList){
+            List<FurnitureJpa> furnitureJpas = funitureRepository.findAllByRoom(r.getId());
+            for(FurnitureJpa f: furnitureJpas){
+                funitureRepository.delete(f);
+            }
+            roomRepository.delete(r);
+        }
+        listUserHouseRepository.delete(listUserHouseRepository.findByUserAndHouse(houseJpa.getId(),account.getId()));
+        return ResponseEntity.noContent().build();
     }
 
 }

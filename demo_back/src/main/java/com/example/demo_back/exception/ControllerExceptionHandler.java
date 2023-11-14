@@ -39,7 +39,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> invalidConditionException(InvalidConditionException ex, WebRequest request) {
         log.info("InvalidConditionException");
         Error message = new Error(
-                "Invalid request",
+                ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -51,7 +51,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> constraintViolationException(javax.validation.ConstraintViolationException ex, WebRequest request) {
         log.info("ConstraintViolationException");
         Error message = new Error(
-                "Invalid request",
+                ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -63,7 +63,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> constraintViolationException(IllegalArgumentException ex, WebRequest request) {
         log.info("IllegalArgumentException");
         Error message = new Error(
-                "Invalid request",
+                ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -75,7 +75,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> constraintViolationException(org.springframework.http.converter.HttpMessageNotReadableException ex, WebRequest request) {
         log.info("HttpMessageNotReadableException");
         Error message = new Error(
-                "Invalid request",
+                ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

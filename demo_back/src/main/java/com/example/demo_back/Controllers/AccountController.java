@@ -1,4 +1,5 @@
 package com.example.demo_back.controllers;
+import com.example.demo_back.domain.SecurityAccount;
 import com.example.demo_back.dto.SignupReceiver;
 import com.example.demo_back.dto.SupportReceiver;
 import com.example.demo_back.service.AccountService;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.Valid;
 
@@ -27,10 +29,11 @@ public class AccountController {
     public ResponseEntity<?> signup(@RequestBody SignupReceiver receiver) {
         return accountService.signup(receiver.getUsername(),receiver.getPassword(),receiver.getPhone(), receiver.getEmail(),receiver.getGender().toString(),receiver.getAge());
     }
-    @GetMapping("/users/{id}")
+    @GetMapping("/user")
     @PreAuthorize("hasAuthority('user')")
-    public ResponseEntity<?> getUser(@PathVariable Integer id){
-        return accountService.getUserById(id);
+    public ResponseEntity<?> getUser(){
+        SecurityAccount user = (SecurityAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return accountService.getUserById(user.getId());
     }
     @GetMapping("/support/login")
     public ResponseEntity<?> supportLogin(@RequestParam("username") String username,@RequestParam("password") String password) {

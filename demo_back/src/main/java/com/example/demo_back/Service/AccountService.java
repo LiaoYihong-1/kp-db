@@ -59,9 +59,9 @@ public class AccountService {
              * create token
              */
             String jwtToken = JwtUtils.createToken(userId);
-            Map<String,String> tokenMap = new HashMap<>();
-            tokenMap.put("token",jwtToken);
-            return ResponseEntity.ok(tokenMap);
+            uniResponse.setToken(jwtToken);
+            uniResponse.setSuccess(true);
+            return ResponseEntity.ok(uniResponse);
         }else{
             throw new InvalidParameterException("Make sure that you input a phone or email");
         }

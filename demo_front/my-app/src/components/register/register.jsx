@@ -74,25 +74,26 @@ export default function SignUp() {
     };
     function sendAccount(firstname,lastname,password,age,phone,email,gender){
         $.ajax({
-                url: "api/signup",
-                method:"POST",
-                data:{
-                    password: password,
-                    username: firstname+" "+lastname,
-                    age: age,
-                    phone: phone,
-                    email: email,
-                    gender:gender,
-                },
-                async:false,
-                success:function (res){
-                    if(res.success){
-                        alert('success')
-                    }else {
-                        //dispatch(clearAccount());
-                        alert(res.message);
-                    }
-                }
+            url: "api/signup",
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data:JSON.stringify({
+                password: password,
+                username: firstname+" "+lastname,
+                age: age,
+                phone: phone,
+                email: email,
+                gender:gender.toUpperCase()
+            }),
+            async:false,
+            success:function (res){
+                alert('success')
+            },
+            error:(error)=>{
+                alert(gender.toUpperCase());
+            }
             }
         );
     }
@@ -197,8 +198,8 @@ export default function SignUp() {
                                     id: 'gender-native-simple',
                                 }}
                             >
-                                <option value={'Man'}>Man</option>
-                                <option value={'Woman'}>Woman</option>
+                                <option value={'MAN'}>MAN</option>
+                                <option value={'WOMAN'}>WOMAN</option>
                             </Select>
                         </FormControl>
                     </Grid>

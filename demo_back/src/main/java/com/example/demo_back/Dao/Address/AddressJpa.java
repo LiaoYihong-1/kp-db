@@ -3,6 +3,7 @@ package com.example.demo_back.dao.address;
 import com.example.demo_back.dao.enums.City;
 import com.example.demo_back.dao.enums.Country;
 import com.example.demo_back.dao.house.HouseJpa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 
@@ -27,5 +28,6 @@ public class AddressJpa {
     private String street;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id",referencedColumnName = "address_id")
+    @JsonIgnore
     private HouseJpa houseJpa;
 }

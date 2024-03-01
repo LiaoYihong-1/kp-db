@@ -16,28 +16,28 @@ export default function MainPerson(props){
         email:'',
         getState:false
     })
-    function getPersonalData(username,password){
+    function getPersonalData(token){
         $.ajax({
-                url: "api/metadata",
-                method:"POST",
-                data:{
-                    password:password,
-                    username:username
+                url: "api/user",
+                method:"GET",
+                headers: {
+                    'Content-Type': 'application/json', // 设置内容类型为 JSON
+                    'token': window.sessionStorage.getItem("token") // 设置授权头
+                    // 可以添加其他自定义请求头
                 },
                 async:false,
                 success:function (res){
-                    if(res.success){
-                        setState({
-                            age: res.age,
-                            gender: res.gender,
-                            username: res.username,
-                            phone:res.phone,
-                            email:res.email,
-                            getState: true
-                        })
-                    }else {
-                        alert("Make sure that your account available or try to log in again");
-                    }
+                    setState({
+                        age: res.age,
+                        gender: res.gender,
+                        username: res.name,
+                        phone:res.contactJpa.phone,
+                        email:res.contactJpa.email,
+                        getState: true
+                    })
+                },
+                error:function (){
+                    alert("Make sure your account available")
                 }
             }
         );
@@ -45,7 +45,7 @@ export default function MainPerson(props){
 
     useEffect(() => {
         if(!state.getState) {
-            getPersonalData(window.sessionStorage.getItem("username"), window.sessionStorage.getItem("password"));
+            getPersonalData(window.sessionStorage.getItem("token"));
         }
     });
 

@@ -28,7 +28,7 @@ import ReportTool from "./reportTool";
 import ScriptTools from "./scriptTools";
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import MainSchedule from "./mainSchedule";
-import ScheduleTools from "./ShcduleTools"
+import ScheduleTools from "./shcduleTools"
 const drawerWidth = 240;
 
 

@@ -4,7 +4,6 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -75,13 +74,12 @@ export default function AddAction(props) {
     })
     function sendAction(){
         $.ajax({
-                url: "api/addaction",
+                url: "api/action",
                 method:"POST",
                 data:{
-                    script_id:script_id,
-                    action_type:state.action_type,
+                    scriptId:script_id,
+                    actionType:state.action_type,
                     target:state.target,
-
                 },
                 async:false,
                 success:function (res){

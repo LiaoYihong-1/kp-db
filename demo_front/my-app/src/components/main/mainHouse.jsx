@@ -80,24 +80,29 @@ function AddRoom(props) {
 
     function sendRoom(square,height,room_type,house_id){
         $.ajax({
-                url: "api/addroom",
-                method:"POST",
-                data:{
-                    height:height,
-                    square:square,
-                    room_type:room_type,
-                    user_id:window.sessionStorage.getItem("id"),
-                    house_id:house_id
-                },
-                async:false,
-                success:function (res){
-                    if(res.success){
-                        alert('success')
-                    }else {
-                        //dispatch(clearAccount());
-                        alert(res.message);
-                    }
+            url: "api/room",
+            method:"POST",
+            data:{
+                height:height,
+                square:square,
+                room_type:room_type,
+                user_id:window.sessionStorage.getItem("id"),
+                house_id:house_id
+            },
+            headers: {
+                'Content-Type': 'application/json', // 设置内容类型为 JSON
+                'token': window.sessionStorage.getItem("token") // 设置授权头
+                // 可以添加其他自定义请求头
+            },
+            async:false,
+            success:function (res){
+                if(res.success){
+                    alert('success')
+                }else {
+                    //dispatch(clearAccount());
+                    alert(res.message);
                 }
+            }
             }
         );
     }
@@ -200,20 +205,20 @@ function AddFurniture(props) {
 
     function sendFurniture(manufacture,furniture_type){
         $.ajax({
-                url: "api/addfurniture",
-                method:"POST",
-                data:{
-                    manufacture: manufacture,
-                    furniture_type:furniture_type,
-                    room_id:roomId
-                },
-                async:false,
-                success:function (res){
-                    if(res){
-                        alert('success')
-                    }
+            url: "api/furniture",
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json', // 设置内容类型为 JSON
+                'token': window.sessionStorage.getItem("token") // 设置授权头
+                // 可以添加其他自定义请求头
+            },
+            async:false,
+            success:function (res){
+                if(res){
+                    alert('success')
                 }
             }
+        }
         );
     }
 
@@ -300,10 +305,12 @@ function Room(props){
     const [funirtureaquired,setFunirtureaquired] = React.useState(false);
     function getFurniture(){
         $.ajax({
-                url: "api/getfurniture",
-                method:"POST",
-                data:{
-                    id:room.id
+                url: "api/furniture",
+                method:"GET",
+                headers: {
+                    'Content-Type': 'application/json', // 设置内容类型为 JSON
+                    'token': window.sessionStorage.getItem("token") // 设置授权头
+                    // 可以添加其他自定义请求头
                 },
                 async:false,
                 success:function (res){
@@ -415,10 +422,12 @@ function Row(props) {
     const formclasses =useStyles();
     function getRoom(){
         $.ajax({
-                url: "api/getroom",
-                method:"POST",
-                data:{
-                    house_id: row.id
+                url: "api/houses/room/"+row.id,
+                method:"GET",
+                headers: {
+                    'Content-Type': 'application/json', // 设置内容类型为 JSON
+                    'token': window.sessionStorage.getItem("token") // 设置授权头
+                    // 可以添加其他自定义请求头
                 },
                 async:false,
                 success:function (res){
@@ -551,10 +560,12 @@ function CollapsibleTable() {
     const [gethouse,setGethouse] = useState(false);
     function getHouses(){
         $.ajax({
-                url: "api/gethouses",
-                method:"POST",
-                data:{
-                    id:window.sessionStorage.getItem("id")
+                url: "api/houses",
+                method:"GET",
+                headers: {
+                    'Content-Type': 'application/json', // 设置内容类型为 JSON
+                    'token': window.sessionStorage.getItem("token") // 设置授权头
+                    // 可以添加其他自定义请求头
                 },
                 async:false,
                 success:function (res){
@@ -563,9 +574,9 @@ function CollapsibleTable() {
                         for(var i in res){
                             rows.push({
                                 id:res[i].id,
-                                street:res[i].street,
-                                country:res[i].country,
-                                city:res[i].city,
+                                street:res[i].address.street,
+                                country:res[i].address.country,
+                                city:res[i].address.city,
                                 house_type:res[i].house_type,
                                 rooms:[]
                             })

@@ -25,10 +25,11 @@ public class HouseController {
                 houseReceiver.getCountry().toString(),
                 houseReceiver.getUserId());
     }
-    @GetMapping("/houses/{userId}")
+    @GetMapping("/houses")
     @PreAuthorize("hasAuthority('user')")
-    public ResponseEntity<?> getHousesByUser(@PathVariable Integer userId){
-        return houseService.findHousesByUser(userId);
+    public ResponseEntity<?> getHousesByUser(){
+        SecurityAccount user = (SecurityAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return houseService.findHousesByUser(user.getId());
     }
     @DeleteMapping("/houses/{id}")
     @PreAuthorize("hasAuthority('user')")

@@ -66,22 +66,23 @@ export default function LoginPage() {
     const [username,setUsername] = useState('')
     function sendAccount(username,password){
         $.ajax({
-                url: "api/login",
-                method:"POST",
-                data:{
-                    password: password,
-                    username: username
+                url: "api/user/login?password="+password+"&username="+username,
+                method:"GET",
+                headers: {
+                    'Content-Type': 'application/json'
                 },
                 async:false,
                 success:function (res){
-                    if(res.success){
-                        window.sessionStorage.setItem("username",username);
-                        window.sessionStorage.setItem("password",password);
-                        window.sessionStorage.setItem("id",res.id);
-                        const history = createBrowserHistory();
-                        history.push('/main');
-                    }else {
-                        alert(res.message);
+                    window.sessionStorage.setItem("token",res.token);
+                    const history = createBrowserHistory();
+                    history.push('/main');
+                },
+                statusCode:{
+                    404:function (){
+                        alert("No this account")
+                    },
+                    400:function (){
+                        alert("Make sure that you input an email")
                     }
                 }
             }

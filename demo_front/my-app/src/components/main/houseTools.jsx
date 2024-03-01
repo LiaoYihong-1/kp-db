@@ -146,15 +146,18 @@ function AddHouse() {
     };
     function sendAddress(city,country,street,house_type){
         $.ajax({
-                url: "api/addhouse",
+                url: "api/house",
                 method:"POST",
-                data:{
-                    city:city.replace(" ","_"),
-                    country:country,
-                    street:street,
-                    house_type:house_type,
-                    user_id:window.sessionStorage.getItem("id")
+                headers: {
+                    'Content-Type': 'application/json'
                 },
+                data:JSON.stringify({
+                    city:city.replace(" ","_"),
+                    country:country.toUpperCase(),
+                    street:street,
+                    houseType:house_type.toUpperCase(),
+                    userId:window.sessionStorage.getItem("id")
+                }),
                 async:false,
                 success:function (res){
                     if(res.success){
